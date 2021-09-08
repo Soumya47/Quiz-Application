@@ -31,11 +31,7 @@ public class QuestionControllerTest {
 
     @Test
     public void addQuestion_test() throws Exception {
-        String json = "{\n"+
-                "\"questionId\": 1,\n"+
-                "\"question\": \"some question ?\",\n"+
-                "\"quizId\": 1\n"+
-                "}";
+        String json = "{"+"\"questionId\":1,"+"\"question\":\"some question ?\","+ "\"quizId\":1"+"}";
         Question question = new Question(1,"some question ?",1);
         Mockito.when(questionService.addAndUpdateQuestion(Mockito.any(Question.class))).thenReturn(question);
         MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.post("/ques")
@@ -47,9 +43,10 @@ public class QuestionControllerTest {
         String content = mvcResult.getResponse().getContentAsString();
         System.out.println("Question added successfully"+ content);
         assertEquals(HttpStatus.OK.value(),response.getStatus());
+        assertEquals(json,content);
     }
     @Test
-    public void getQuestion() throws Exception {
+    public void test_getQuestion() throws Exception {
         Mockito.when(questionService.getQuestion(Mockito.anyInt()))
                 .thenReturn(new Question(1,"some question ?",1));
         MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/ques/1")).andReturn();
@@ -59,7 +56,7 @@ public class QuestionControllerTest {
     }
 
     @Test
-    public void getQuestionByQuizId() throws Exception {
+    public void test_getQuestionByQuizId() throws Exception {
         List<Question> questionList = new ArrayList<>();
         questionList.add(new Question(1,"Some question1 ?",1));
         questionList.add(new Question(2,"some question2 ?",1));
